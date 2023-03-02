@@ -1,0 +1,93 @@
+.main {
+  display: flex;
+  flex-direction: column;
+}
+
+.result--table {
+  display: flex;
+  flex-direction: column;
+  align-self: center;
+  border: 1px solid black;
+  border-top: none;
+}
+
+select {
+  width: 100px;
+}
+
+input {
+  width: 200px;
+}
+
+img {
+  width: 100px;
+  height: 100px;
+  margin: 0;
+  padding: 5px;
+}
+
+.individual--row {
+  display: flex;
+  width: 630px;
+}
+
+.result--definitions {
+  width: 630px;
+  display: flex;
+  flex-direction: row;
+  border-top: 1px solid black;
+  background-color: grey;
+}
+
+.title--p {
+  width: 400px;
+  margin: 0;
+  padding: 5px;
+  border-left: 1px solid black;
+  border-right: 1px solid black;
+}
+
+.destination--p {
+  margin: 0;
+  padding: 5px;
+}
+
+.image--p {
+  width: 100px;
+  margin: 0;
+  padding: 5px;
+}
+
+.result--div {
+  width: 520px;
+  display: flex;
+  flex-direction: row;
+}
+.result--div .result--title {
+  text-align: start;
+  width: 400px;
+  margin: 0;
+  padding: 5px;
+  border-left: 1px solid black;
+  border-right: 1px solid black;
+}
+.result--div .result--destination {
+  text-align: start;
+  margin: 0;
+  padding: 5px;
+}
+
+.load--btn {
+  width: 60px;
+  height: 30px;
+  margin-block: 20px;
+  align-self: center;
+}
+
+.radio--checkbox {
+  width: 30px;
+}
+
+.individual--row:nth-of-type(even) {
+  background-color: lightgray;
+}/*# sourceMappingURL=main.css.map */
