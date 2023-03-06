@@ -1,7 +1,12 @@
 import { useEffect, useState } from 'react'
 import axios from 'axios'
+import SearchBar from './components/SearchBar'
+import ResultSection from './components/ResultSection'
+import CurrencySelector from './components/CurrencySelector'
+
 
 function App() {
+  
   const [showPopUp, setShowPopUp] = useState(true)
   const [currency, setCurrency] = useState('en')
   const [productMeta, setProductMeta] = useState()
@@ -9,6 +14,8 @@ function App() {
   const [itemsPerPage, setItemsPerPage] = useState(10)
   const [results, setResults] = useState()
   const [offset, setOffset] = useState(0)
+  const [error, setError] = useState('')
+
   useEffect(() => {
     if(itemsPerPage || offset) {
       handleSubmit()
@@ -30,8 +37,10 @@ function App() {
         })
             setResults(data.data.data)
             setProductMeta(data.data.meta)
+            setError('')
     } catch (error) {
       console.error(error)
+      setError('No results were found')
     }
     } else {
       setResults(null)
@@ -49,61 +58,55 @@ function App() {
 
   function changeItemsPerPage(e) {
     setItemsPerPage(e.target.value)
-    setOffset(0)
+    resetOffset()
   }
 
   function search(e) {
     setSearchInput(e.target.value)
   }
 
+  function resetOffset() {
+    setOffset(0)
+  }
+
+  if (productMeta) {
+    console.log(productMeta)
+    console.log('total minus offset', productMeta.total_count)
+    console.log('offset', offset)
+
+  }
+
   return (
     <div className='main'>
       <h1>Product Search</h1>
+      
       {showPopUp &&
-      (<><h4>Select currency</h4><form onSubmit={submitCurrency}>
-          <label>English based currency</label>
-          <input className='radio--checkbox'  type='radio' value='en' checked={currency === 'en'} onChange={changeCurrency} />
-          <label>Irish based currency</label>
-          <input className='radio--checkbox' type='radio' value='en-ie' checked={currency === 'en-ie'} onChange={changeCurrency} />
-          <label>German based currency</label>
-          <input className='radio--checkbox'  type='radio' value='de-de' checked={currency === 'de-de'} onChange={changeCurrency} />
-          <button type='submit'>Confirm</button>
-        </form></>) 
+      <CurrencySelector 
+        submitCurrency={submitCurrency}
+        changeCurrency={changeCurrency}
+        currency={currency}
+      /> 
       }
-        {!showPopUp &&
-        (<div className='search--div'>
-          <form onSubmit={handleSubmit}>
-        <label>Title</label>
-        <input value={searchInput} onChange={search}/>
-        <button className='search--btn' type='submit'>Search</button>
-          </form>
-        </div>) 
-        }
-      {results && 
-        (<><p>Change Items Per Page</p><select onChange={changeItemsPerPage}>
-          <option value='10'>10</option>
-          <option value='20'>20</option>
-          <option value='50'>50</option>
-          <option value={productMeta.total_count}>All</option>
-        </select>
-        <div className='result--table'>
-          <div className='result--definitions'>
-          <p className='image--p'>Image</p>
-          <p className='title--p'>Title</p>
-          <p className='destination--p'>Destination</p>
-          </div>
-            {results.map(product => {
-              return <div className='individual--row' key={product.id}>
-                <img src={product.img_sml} alt='i' />
-                <div className='result--div'>
-                <p className='result--title'>{product.title}</p>
-                <p className='result--destination'>{product.dest}</p>
-                </div>
-              </div>
-            })}
-          </div>
-          {offset <= productMeta.total_count && <button className='load--btn' onClick={() => setOffset(offset + 10)}>Load</button>}
-          </>)}
+      {!showPopUp &&
+        (<SearchBar 
+          handleSubmit={handleSubmit}
+          searchInput={searchInput}
+          search={search}
+          resetOffset={resetOffset}
+        />)}
+      {error ? <p>{error}</p> :
+      (results &&
+      (<> 
+        <ResultSection 
+          setItemsPerPage={setItemsPerPage}
+          setOffset={setOffset}
+          total_count={productMeta.total_count}
+          results={results}
+          changeItemsPerPage={changeItemsPerPage}
+          itemsPerPage={itemsPerPage}
+        />
+          <button className='load--btn' onClick={() => setOffset(prevOffset => prevOffset + Number(itemsPerPage))} disabled={productMeta.count < productMeta.limit || productMeta.count === productMeta.total_count}>Load</button>
+          </>))}
     </div>
   )
 }

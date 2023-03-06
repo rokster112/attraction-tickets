@@ -90,4 +90,24 @@ img {
 
 .individual--row:nth-of-type(even) {
   background-color: lightgray;
+}
+
+.currency--main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.currency--main .currency--form {
+  display: flex;
+  flex-direction: column;
+}
+.currency--main .currency--form .currency--form--input {
+  display: flex;
+  justify-content: space-between;
+  margin-block: 5px;
+}
+.currency--main .currency--form .currency--submit--btn {
+  margin-top: 10px;
+  align-self: center;
+  width: 90px;
 }/*# sourceMappingURL=main.css.map */

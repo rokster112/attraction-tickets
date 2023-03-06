@@ -92,3 +92,24 @@ img {
 .individual--row:nth-of-type(even) {
   background-color: lightgray;
 }
+
+.currency--main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  .currency--form {
+    display: flex;
+    flex-direction: column;
+    .currency--form--input {
+      display: flex;
+      justify-content: space-between;
+      margin-block: 5px;
+    }
+    
+    .currency--submit--btn {
+      margin-top: 10px;
+      align-self: center;
+      width: 90px;
+    }
+  }
+}
